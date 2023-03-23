@@ -11,8 +11,14 @@ namespace EvimiKur.Bussiness.Interfaces
 {
     public interface ICartService
     {
-        void AddToCart(ProductListDto product);
-        void RemoveCart(ProductListDto product);
-        List<ProductListDto> ProductInTheCart();
+        //void AddToCart(ProductListDto product);
+        //void RemoveCart(ProductListDto product);
+        //List<ProductListDto> ProductInTheCart();
+        void Add(ProductListDto product);       // Asıl kullanılan
+        List<ProductListDto> List();          // Asıl kullanılan
+        void Remove(int id);                  // Asıl kullanılan
+
+
+
     }
 }

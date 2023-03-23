@@ -14,7 +14,7 @@ namespace EvimiKur.Dtos
     {
         public int Id { get; set; }
         public string ProductName { get; set; }
-        public string QuantityPerUnit { get; set; }
+        public int Quantity { get; set; }
         public int UnitPrice { get; set; }
         public int UnitInStock { get; set; }
         public bool Status { get; set; }

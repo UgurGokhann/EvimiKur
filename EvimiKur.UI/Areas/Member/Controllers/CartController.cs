@@ -21,31 +21,38 @@ namespace EvimiKur.UI.Areas.Member.Controllers
             _mapper = mapper;
         }
 
-
-
         //public IActionResult Index()
         //{
         //    return View();
         //}
-        public IActionResult Index()
+        public IActionResult List()
         {
-            return View(_cartService.ProductInTheCart());
+            return View(_cartService.List());
         }
-        public async Task<IActionResult> AddCart(int id)
+       
+        public async Task<IActionResult> Add(int id)
         {
+            
             var response = await _productService.GetByIdAsync<ProductListDto>(id);
             if (response.ResponseType == ResponseType.Success)
             {
                 var product = response.Data;
-                _cartService.AddToCart(product);
+                _cartService.Add(product);
                 TempData["info"] = "Product Add to Cart";
-                
             }
             else
             {
                 TempData["info"] = response.Message;
             }
-            return View("Index");
+            return RedirectToAction("Index", "Product");
         }
+        public async Task<IActionResult> Remove(int id)
+        {
+            _cartService.Remove(id);
+
+            return RedirectToAction("List","Cart");
+        }
+
+
     }
 }
