@@ -8,7 +8,7 @@ namespace EvimiKur.DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Quantity",
+                name: "QuantityPerUnit",
                 table: "Products");
 
             migrationBuilder.AddColumn<int>(
@@ -23,14 +23,14 @@ namespace EvimiKur.DataAccess.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "CreatedDate",
-                value: new DateTime(2023, 3, 23, 0, 32, 9, 859, DateTimeKind.Local).AddTicks(841));
+                value: new DateTime(2023, 3, 23, 0, 52, 43, 670, DateTimeKind.Local).AddTicks(6368));
 
             migrationBuilder.UpdateData(
                 table: "AppRoles",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "CreatedDate",
-                value: new DateTime(2023, 3, 23, 0, 32, 9, 859, DateTimeKind.Local).AddTicks(8284));
+                value: new DateTime(2023, 3, 23, 0, 52, 43, 671, DateTimeKind.Local).AddTicks(5756));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

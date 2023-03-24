@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvimiKur.DataAccess.Migrations
 {
     [DbContext(typeof(EvimiKurContext))]
-    [Migration("20230322213210_ProductPropChange")]
-    partial class ProductPropChange
+    [Migration("20230322221300_UnitPriceDecimal")]
+    partial class UnitPriceDecimal
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,14 +53,14 @@ namespace EvimiKur.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 3, 23, 0, 32, 9, 859, DateTimeKind.Local).AddTicks(841),
+                            CreatedDate = new DateTime(2023, 3, 23, 1, 12, 59, 639, DateTimeKind.Local).AddTicks(4133),
                             Definition = "Admin",
                             Status = false
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 3, 23, 0, 32, 9, 859, DateTimeKind.Local).AddTicks(8284),
+                            CreatedDate = new DateTime(2023, 3, 23, 1, 12, 59, 640, DateTimeKind.Local).AddTicks(3160),
                             Definition = "Member",
                             Status = false
                         });
@@ -396,8 +396,8 @@ namespace EvimiKur.DataAccess.Migrations
                     b.Property<int>("UnitInStock")
                         .HasColumnType("int");
 
-                    b.Property<int>("UnitPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UnitsInOrder")
                         .HasColumnType("int");

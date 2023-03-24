@@ -42,6 +42,8 @@ namespace EvimiKur.UI
             
 
 
+
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
    .AddCookie(opt =>
    {
@@ -72,7 +74,9 @@ namespace EvimiKur.UI
             profiles.Add(new ProductCreateModelProfile());
             profiles.Add(new AppUserCreateModelProfile());
             
-            
+
+
+
 
             var configuration = new MapperConfiguration(opt =>
             {

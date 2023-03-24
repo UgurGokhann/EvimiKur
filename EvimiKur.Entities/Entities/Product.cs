@@ -15,7 +15,7 @@ namespace EvimiKur.Entities.Entities
         
         public string ProductName { get; set; }
         public int Quantity { get; set; }
-        public int UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
         public int UnitInStock { get; set; }
         public int UnitsInOrder { get; set; }
         public bool Discontinued { get; set; }

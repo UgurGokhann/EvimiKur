@@ -29,7 +29,7 @@ namespace EvimiKur.UI.Models
             if (!_cart.ContainsKey(item.Id))
                 _cart.Add(item.Id, item);
             else//Eğer o id varsa satın alınacak(sepete eklenecek) miktarı bir arttırır.
-                _cart[item.Id].Quantity = (_cart[item.Id].Quantity + 1);
+                _cart[item.Id].Quantity = _cart[item.Id].Quantity + 1;
         }
         /// <summary>
         /// Seçilen ürünü sepetten siler
@@ -46,7 +46,7 @@ namespace EvimiKur.UI.Models
         public void DecreaseCart(int id)
         {
             //Sepetten bir azaltma
-            _cart[id].Quantity = (_cart[id].Quantity - 1);
+            _cart[id].Quantity = _cart[id].Quantity - 1;
 
             //Eğer sepette azaltırken başka o elemandan kalmadı ise tamamen sepetten siliyoruz
             if (_cart[id].Quantity <= 0) _cart.Remove(id);
@@ -58,7 +58,7 @@ namespace EvimiKur.UI.Models
         public void IncreaseCart(int id)
         {
             //Sepetteki ürünün miktarını bir arttırır.
-            _cart[id].Quantity = (_cart[id].Quantity + 1);
+            _cart[id].Quantity = _cart[id].Quantity + 1;
         }
     }
 }
