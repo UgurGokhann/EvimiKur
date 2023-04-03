@@ -1,15 +1,14 @@
 ﻿@model List<ProductListDto>
 
-
+@{
+    ViewData["Title"] = "List";
+}
 
 <link href="~/css/cart/mdb.dark.min.css" rel="stylesheet" />
 <link href="~/css/cart/mdb.dark.rtl.min.css" rel="stylesheet" />
 <link href="~/css/cart/mdb.min.css" rel="stylesheet" />
 <link href="~/css/cart/mdb.rtl.min.css" rel="stylesheet" />
 <link href="~/css/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
-
-
-
 
 
 <div>
@@ -89,7 +88,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <a type="button" asp-area="Member" asp-controller="Order" asp-action="Add"  class="btn btn-warning btn-block btn-lg">Proceed to Pay</a>
+                            <a type="button" asp-area="Member" asp-controller="Order" asp-action="Add" class="btn btn-warning btn-block btn-lg">Proceed to Pay</a>
                         </div>
                     </div>
                     <div class="card">
@@ -100,3 +99,4 @@
         </div>
     </section>
 </div>
+

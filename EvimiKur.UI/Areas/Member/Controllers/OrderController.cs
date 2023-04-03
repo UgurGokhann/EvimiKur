@@ -5,14 +5,18 @@ using EvimiKur.Common;
 using EvimiKur.Common.Enums;
 using EvimiKur.Dtos;
 using EvimiKur.Entities.Entities;
+using EvimiKur.UI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Razor.Language;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Udemy.AdvertisementApp.UI.Extensions;
 
 namespace EvimiKur.UI.Areas.Member.Controllers
 {
@@ -27,6 +31,7 @@ namespace EvimiKur.UI.Areas.Member.Controllers
         private readonly IOrderService _orderService;
 
 
+
         public OrderController(IAppUserService appUserService, IHttpContextAccessor contextAccessor, ICartService cartService, IProductService productService, IOrderService orderService)
         {
             _appUserService = appUserService;
@@ -34,10 +39,12 @@ namespace EvimiKur.UI.Areas.Member.Controllers
             _cartService = cartService;
             _productService = productService;
             _orderService = orderService;
+
         }
 
         public IActionResult Index()
         {
+           
             return View();
         }
 
@@ -52,22 +59,21 @@ namespace EvimiKur.UI.Areas.Member.Controllers
             var userId = int.Parse((User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)).Value);
             var userResponse = await _appUserService.GetByIdAsync<AppUserListDto>(userId);
 
-
+            
             if (userResponse.ResponseType == Common.ResponseType.Success)
             {
                 order.AppUserId = userResponse.Data.Id;
-                //order.AppUser = userResponse.Data;
-
             }
-            
+
 
             foreach (var item in _cartService.List())
             {
-                 
+
                 var response = await _productService.GetByIdAsync<Product>(item.Id);
                 if (response.ResponseType == ResponseType.Success)
                 {
                     var product = response.Data;
+                    
 
                     order.OrderDetails.Add(new OrderDetail
                     {
@@ -77,11 +83,13 @@ namespace EvimiKur.UI.Areas.Member.Controllers
                     });
                 }
             }
-            
-            
+
+            order.Status = (int)StatusType.Pending;
+
             await _orderService.CreateAsync(order);
 
             var productList = _contextAccessor.HttpContext.Request.GetObject<List<ProductListDto>>("sepet" + userId);
+
 
             foreach (var item in _cartService.List())
             {
@@ -90,9 +98,78 @@ namespace EvimiKur.UI.Areas.Member.Controllers
                 productList.Remove(productToRemove);
                 _contextAccessor.HttpContext.Response.SetObject("sepet" + userId, productList);
 
+
             }
             return Redirect("~/Home/Index");
         }
 
+        public async Task<IActionResult> Pending(int userId)
+        {
+            var orders = await _orderService.GetListAsync(userId, Common.Enums.StatusType.Pending);
+
+            foreach (var order in orders)
+            {
+                foreach (var item in order.OrderDetails)
+                {
+                    var response = await _productService.GetByIdAsync<Product>(item.ProductId);
+                    if (response.ResponseType == ResponseType.Success)
+                    {
+                        var product = response.Data;
+
+                        item.UnitPrice = (product.UnitPrice * item.Quantity);
+                    }
+                }
+
+                order.Price = order.OrderDetails.Sum(x => x.UnitPrice);
+            }
+            return View(orders);
+        }
+
+        public async Task<IActionResult> Confirmed(int userId)
+        {
+
+            var orders = await _orderService.GetListAsync(userId ,Common.Enums.StatusType.Active);
+
+            foreach (var order in orders)
+            {
+                foreach (var item in order.OrderDetails)
+                {
+                    var response = await _productService.GetByIdAsync<Product>(item.ProductId);
+                    if (response.ResponseType == ResponseType.Success)
+                    {
+                        var product = response.Data;
+
+                        item.UnitPrice = (product.UnitPrice * item.Quantity);
+                    }
+                }
+
+                order.Price = order.OrderDetails.Sum(x => x.UnitPrice);
+            }
+            return View(orders);
+            
+        }
+
+        public async Task<IActionResult> Rejected(int userId)
+        {
+
+            var orders = await _orderService.GetListAsync(userId, Common.Enums.StatusType.Passive);
+
+            foreach (var order in orders)
+            {
+                foreach (var item in order.OrderDetails)
+                {
+                    var response = await _productService.GetByIdAsync<Product>(item.ProductId);
+                    if (response.ResponseType == ResponseType.Success)
+                    {
+                        var product = response.Data;
+
+                        item.UnitPrice = (product.UnitPrice * item.Quantity);
+                    }
+                }
+
+                order.Price = order.OrderDetails.Sum(x => x.UnitPrice);
+            }
+            return View(orders);
+        }
     }
 }
